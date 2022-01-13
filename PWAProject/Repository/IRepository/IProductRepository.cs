@@ -11,5 +11,6 @@ namespace PWADemoProject.Repository.IRepository
         void SaveProduct(Product foProduct, out int fiSuccess, out int fiProductId);
         List<ProductList> GetProduct(int? fiSortColumn, string fsSortOrder, int? fiPageNo, int? fiPageSize);
         Product GetProductDetail(int inProductId);
+        void DeleteProduct(int inProductId,out int fiSuccess);
     }
 }

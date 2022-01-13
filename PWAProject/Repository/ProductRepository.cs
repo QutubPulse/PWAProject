@@ -35,5 +35,12 @@ namespace PWADemoProject.Repository
         {
             return moDatabaseContext.Set<Product>().FromSqlInterpolated($"EXEC getProductDetails @inProductId={inProductId}").AsEnumerable().FirstOrDefault();
         }
+
+        public void DeleteProduct(int fiProductId, out int fiSuccess)
+        {
+            SqlParameter loSuccess = new SqlParameter("@inSuccess",SqlDbType.Int) { Direction = ParameterDirection.Output };
+            moDatabaseContext.Database.ExecuteSqlInterpolated($"EXEC deleteProduct @inProductId={fiProductId},@inSuccess = {loSuccess} OUT");
+            fiSuccess = Convert.ToInt32(loSuccess.Value);
+        }
     }
 }
