@@ -1,16 +1,16 @@
 ﻿function SaveProduct() {
     var liProductId = 0;
     if ($('#stProductName').val() == '') {
-        toastr.warning('Please enter product name.');
+        alert('Please enter product name.');
     }
     else if ($('#dcPrice').val() == '') {
-        toastr.warning('Please enter price.');
+        alert('Please enter price.');
     }
     else if ($('#inQuantity').val()=='') {
-        toastr.warning('Please enter quantity.');
+        alert('Please enter quantity.');
     }
     else if ($('#stDescription').val() == '') {
-        toastr.warning('Please enter description.');
+        alert('Please enter description.');
     }
     else {
         var formData = new FormData();        
@@ -39,7 +39,7 @@
                     window.location.href = response.url;
                 }
                 else {
-                    toastr.success('Error try again.');
+                    alert('Error try again.');
                 }
             }
         });

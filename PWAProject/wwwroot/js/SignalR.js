@@ -4,7 +4,7 @@
 connection.on("ReceiveMessage", (obj) => {
    
     if (obj.success == "101") {
-        $("#tblProduct > tbody").prepend("<tr id='tr_" + obj.productId + "'><td>" + obj.name + "</td><td>" + obj.price + "</td><td>" + obj.quantity + "</td><td>" + obj.description + "</td><td> <a class='btn-danger p-1' href='Home/Edit/" + obj.productId + "'>View</a></td></tr>");
+        $("#tblProduct > tbody").prepend("<tr id='tr_" + obj.productId + "'><td>" + obj.name + "</td><td>" + obj.price + "</td><td>" + obj.quantity + "</td><td>" + obj.description + "</td><td> <a class='btn-danger p-1' href='/Edit/" + obj.productId + "'>View</a></td></tr>");
     }
     else if (obj.success == "102") {        
         $('#tr_' + obj.productId).find("td:eq(0)").text(obj.name);
