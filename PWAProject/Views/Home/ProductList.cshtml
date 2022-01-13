@@ -1,7 +1,14 @@
-﻿@{
+﻿@using PWAProject.Models;
+@{
     ViewData["Title"] = "Manage Product";
 }
 <div class="row">
+    <div class="col-12">
+        <a class="btn-info float-right p-2 mb-2" asp-area="" asp-controller="Home" asp-action="Create">Add Prodcut</a>
+    </div>
+</div>
+<div class="row">   
+    <div class="col-12">
     <div class="col-4">
         <div class="p-3 mb-1 bg-primary text-white text-center">Product Details</div>
         <EditForm>
@@ -35,12 +42,32 @@
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Description</th>
-                    <th>Out of Stock</th>
-                    <th>View/Update</th>
-                    <th>Delete</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
+                @if (Model.GetProductList != null && Model.GetProductList.Count > 0)
+                {
+                    foreach (ProductList loProductList in Model.GetProductList)
+                    {
+                        <tr>
+                            <td>@loProductList.inProductId</td>
+                            <td>@loProductList.stProductName</td>
+                            <td>@loProductList.dcPrice</td>
+                            <td>@loProductList.inQuantity</td>
+                            <td>@loProductList.stDescription</td>
+                            <td>
+                                <a class="btn-danger p-1" asp-area="" asp-controller="Home" asp-action="Edit" asp-route-id="@loProductList.inProductId">View</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center py-5">No records found.</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

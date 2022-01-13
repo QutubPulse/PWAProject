@@ -32,7 +32,7 @@ namespace PWAProject
             services.AddMvc().AddRazorRuntimeCompilation();
             services.AddDbContext<DatabaseContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("PWADatabaseConnection"));
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSignalR();
