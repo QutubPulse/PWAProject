@@ -1,10 +1,10 @@
 {
-  "name": "IntegerByte",
-  "short_name": "IntegerByte",
+  "name": "Pwa Demo Project",
+  "short_name": "Pwa",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FF715B",
-  "description": "Website design and development company",
+  "description": "This is the demo project of pwa",
   "theme_color": "#FF715B",
   "icons": [
     {
