@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using PWADemoProject.Repository;
 using PWADemoProject.Repository.IRepository;
 using PWAProject.Data;
+using PWAProject.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace PWAProject
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,9 +57,9 @@ namespace PWAProject
             app.UseRouting();
 
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<BroadcastHub>("/broadcastHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

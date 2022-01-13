@@ -22,7 +22,7 @@
                 <input type="text" id="Description" class="form-control" />
             </div>
             <div class="text-center p-3 mb-3">
-                <button class="btn btn-info"> Save </button>
+                <button class="btn btn-info" onclick="SaveProduct();"> Save </button>
             </div>
         </EditForm>
     </div>
@@ -45,3 +45,8 @@
         </table>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/Product/Product.js" asp-append-version="true"></script>
+
+}
