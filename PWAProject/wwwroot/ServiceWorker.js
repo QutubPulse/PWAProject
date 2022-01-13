@@ -1,4 +1,4 @@
-﻿const casheName = "integer-byte -site-v1";
+﻿const casheName = "Pwa Demo Project";
 const assets = [
     "/"
 ];
