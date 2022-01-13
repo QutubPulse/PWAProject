@@ -62,12 +62,14 @@ namespace PWAProject.Controllers
             Product loProduct = moUnitOfWork.Products.GetProductDetail(id);
             return View("~/Views/Home/AddProduct.cshtml",loProduct);
         }
-        public IActionResult SaveProduct(Product foProduct)
+        public JsonResult SaveProduct(Product foProduct)
         {
             int liSuccess = 0;
-            moUnitOfWork.Products.SaveProduct(foProduct, out liSuccess);
-            return RedirectToAction("ProductList");
+            int liProductId = 0;
+            moUnitOfWork.Products.SaveProduct(foProduct, out liSuccess, out liProductId);
+            return Json(new { success = liSuccess, productid = liProductId, url = Url.Action("ProductList", "Home") });
         }
+
        /* public  IActionResult GetProductList(int? sort_column, string sort_order, int? pg, int? size)
         {
             try

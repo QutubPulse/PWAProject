@@ -4,7 +4,6 @@ const assets = [
 ];
 
 self.addEventListener("install", installEvent => {
-    console.log("test3");
     installEvent.waitUntil(
         caches.open(casheName).then(cache => {
             cache.addAll(assets)

@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="manifest" href="/manifest.json">
+    <style type="text/css">
+     .blink {
+            animation: blinker 4s ease normal;
+    }
+
+    @@keyframes blinker {
+            50% {
+            opacity: 0;
+            background-color:lightgreen;
+            }
+    }
+    </style>
 </head>
 <body>
     <header>

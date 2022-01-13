@@ -19,11 +19,13 @@ namespace PWADemoProject.Repository
         {
             moDatabaseContext = foDatabaseContext;
         }
-        public void SaveProduct(Product foProduct, out int fiSuccess)
+        public void SaveProduct(Product foProduct, out int fiSuccess,out int fiProductId)
         {
             SqlParameter loSuccess = new SqlParameter("@inSuccess", SqlDbType.Int) { Direction = ParameterDirection.Output };
-            moDatabaseContext.Database.ExecuteSqlInterpolated($"EXEC saveProduct @inProductId={foProduct.inProductId},@stProductName={foProduct.stProductName},@dcPrice={foProduct.dcPrice},@stDescription={foProduct.stDescription},@dcDiscount={foProduct.dcDiscount},@inQuantity={foProduct.inQuantity}, @inSuccess={loSuccess} OUT");
+            SqlParameter liProductId = new SqlParameter("@inId", SqlDbType.Int) { Direction = ParameterDirection.Output };
+            moDatabaseContext.Database.ExecuteSqlInterpolated($"EXEC saveProduct @inProductId={foProduct.inProductId},@stProductName={foProduct.stProductName},@dcPrice={foProduct.dcPrice},@stDescription={foProduct.stDescription},@dcDiscount={foProduct.dcDiscount},@inQuantity={foProduct.inQuantity}, @inSuccess={loSuccess} OUT,  @inId={liProductId} OUT");
             fiSuccess = Convert.ToInt32(loSuccess.Value);
+            fiProductId= Convert.ToInt32(liProductId.Value);
         }
         public List<ProductList> GetProduct(int? fiSortColumn, string fsSortOrder, int? fiPageNo, int? fiPageSize)
         {
