@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace PWAProject.Models
 {
-    public class Product
+    public class ProductList
     {
+        public int inRecordCount { get; set; }
+        public int inRownumber { get; set; }
         public int? inProductId { get; set; }
         public string stProductName { get; set; }
         public decimal? dcPrice { get; set; }
