@@ -70,46 +70,52 @@ namespace PWAProject.Controllers
             return Json(new { success = liSuccess, productid = liProductId, url = Url.Action("ProductList", "Home") });
         }
 
-       /* public  IActionResult GetProductList(int? sort_column, string sort_order, int? pg, int? size)
+        public JsonResult DeleteProduct(int id)
         {
-            try
-            {
-                string lsSearch = string.Empty;
-                int liTotalRecords = 0, liStartIndex = 0, liEndIndex = 0;
-                if (sort_column == 0 || sort_column == null)
-                    sort_column = 1;
-                if (string.IsNullOrEmpty(sort_order) || sort_order == "desc")
-                {
-                    sort_order = "desc";
-                    ViewData["sortorder"] = "asc";
-                }
-                else
-                {
-                    ViewData["sortorder"] = "desc";
-                }
-                if (pg == null || pg <= 0)
-                    pg = 1;
-                if (size == null || size.Value <= 0)
-                    size = miPageSize;
+            int liSuccess = 0;
+            moUnitOfWork.Products.DeleteProduct(id, out liSuccess);
+            return Json(new { success = liSuccess, productid = id});
+        }
+        /* public  IActionResult GetProductList(int? sort_column, string sort_order, int? pg, int? size)
+         {
+             try
+             {
+                 string lsSearch = string.Empty;
+                 int liTotalRecords = 0, liStartIndex = 0, liEndIndex = 0;
+                 if (sort_column == 0 || sort_column == null)
+                     sort_column = 1;
+                 if (string.IsNullOrEmpty(sort_order) || sort_order == "desc")
+                 {
+                     sort_order = "desc";
+                     ViewData["sortorder"] = "asc";
+                 }
+                 else
+                 {
+                     ViewData["sortorder"] = "desc";
+                 }
+                 if (pg == null || pg <= 0)
+                     pg = 1;
+                 if (size == null || size.Value <= 0)
+                     size = miPageSize;
 
-                List<ProductList> loProductList = new List<ProductList>();
-                loProductList = moUnitOfWork.Products.GetProduct(sort_column, sort_order, pg.Value, size.Value);
-                dynamic loModel = new ExpandoObject();
-                loModel.GetProductList = loProductList;
-                if (loProductList.Count > 0)
-                {
-                    liTotalRecords = loProductList[0].inRecordCount;
-                    liStartIndex = loProductList[0].inRownumber;
-                    liEndIndex = loProductList[loProductList.Count - 1].inRownumber;
-                }
-                //loModel.Pagination = PaginationService.getPagination(liTotalRecords, pg.Value, size.Value, liStartIndex, liEndIndex);
-                return View("~/Areas/Admin/Views/NexusUsers/_NexusUsersList.cshtml", loModel);
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Index", "Error");
-            }
-        }*/
+                 List<ProductList> loProductList = new List<ProductList>();
+                 loProductList = moUnitOfWork.Products.GetProduct(sort_column, sort_order, pg.Value, size.Value);
+                 dynamic loModel = new ExpandoObject();
+                 loModel.GetProductList = loProductList;
+                 if (loProductList.Count > 0)
+                 {
+                     liTotalRecords = loProductList[0].inRecordCount;
+                     liStartIndex = loProductList[0].inRownumber;
+                     liEndIndex = loProductList[loProductList.Count - 1].inRownumber;
+                 }
+                 //loModel.Pagination = PaginationService.getPagination(liTotalRecords, pg.Value, size.Value, liStartIndex, liEndIndex);
+                 return View("~/Areas/Admin/Views/NexusUsers/_NexusUsersList.cshtml", loModel);
+             }
+             catch (Exception ex)
+             {
+                 return RedirectToAction("Index", "Error");
+             }
+         }*/
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

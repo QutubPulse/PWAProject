@@ -45,5 +45,32 @@
         });
     }
 
+function DeleteProduct(id) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/SaveProduct",
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (response) {
+                liProductId = response.productid;
+                connection.invoke("SendMessage",
+                    response.success.toString(),
+                    liProductId.toString(),
+                    $('#stProductName').val(),
+                    $('#dcPrice').val(),
+                    $('#inQuantity').val(),
+                    $('#stDescription').val(),
+                ).catch(err => console.error(err.toString()));
+                if (response.success == 101 || response.success == 102) {
+                    window.location.href = response.url;
+                }
+                else {
+                    toastr.success('Error try again.');
+                }
+            }
+        });
+    }
+
    
 }
