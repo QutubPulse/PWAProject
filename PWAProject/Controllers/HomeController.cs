@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using PWADemoProject.Repository.IRepository;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,11 +21,15 @@ namespace PWAProject.Controllers
         private readonly IUnitOfWork moUnitOfWork;
         private readonly IHubContext<BroadcastHub> moBroadcastHub;
         private readonly static int miPageSize = 10;
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork foUnitOfWork, IHubContext<BroadcastHub> foBroadcastHub)
+        private readonly IWebHostEnvironment moWebHostEnvironment;
+        private readonly string msHTMLFolderPath;
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork foUnitOfWork, IHubContext<BroadcastHub> foBroadcastHub, IWebHostEnvironment foWebHostEnvironment)
         {
             _logger = logger;
             moUnitOfWork = foUnitOfWork;
             moBroadcastHub = foBroadcastHub;
+            moWebHostEnvironment = foWebHostEnvironment;
+            msHTMLFolderPath = Path.Combine(moWebHostEnvironment.WebRootPath, "HTML/");
         }
 
         public IActionResult Index()
@@ -78,7 +84,7 @@ namespace PWAProject.Controllers
             {
                 flgIsEdit = false;
             }
-            else if(liSuccess==102)
+            else if (liSuccess == 102)
             {
                 flgIsEdit = true;
             }
@@ -90,10 +96,10 @@ namespace PWAProject.Controllers
                 dcPrice = foProduct.dcPrice,
                 dcDiscount = foProduct.dcDiscount,
                 inQuantity = foProduct.inQuantity,
-                stDescription = foProduct.stDescription,
-                flgIsEdit = flgIsEdit
+                stDescription = foProduct.stDescription
             };
-            await Common.SendMessage(moBroadcastHub, responseObject);
+            string lsTemplatePath = Path.Combine(msHTMLFolderPath, "TemplateProduct.html");
+            await Common.SendMessage(moBroadcastHub, responseObject, flgIsEdit, lsTemplatePath);
             return Json(new { success = liSuccess, productid = liProductId, url = Url.Action("ProductList", "Home") });
         }
 

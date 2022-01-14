@@ -21,13 +21,13 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody data-pulse-parentid="@(Common.GetPropertyName<string>(()=>PWAProject.Models.ResponseObject.stParentId))">
                 @if (Model.GetProductList != null && Model.GetProductList.Count > 0)
                 {
                     foreach (ProductList loProductList in Model.GetProductList)
                     {
                         <tr id="tr_@loProductList.inProductId" data-pulse-id="@(typeof(PWAProject.Models.ResponseObject).Name + loProductList.inProductId)">                   
-                            <td style="display:none;" data-pulse-selecter="@(Common.GetPropertyName<int?>(()=>pp.inProductId) )">@loProductList.stProductName</td>
+                            <td style="display:none;" data-pulse-selecter="@(Common.GetPropertyName<int?>(()=>pp.inProductId) )">@loProductList.inProductId</td>
                             <td data-pulse-selecter="@(Common.GetPropertyName<string>(()=>pp.stProductName) )">@loProductList.stProductName</td>
                             <td data-pulse-selecter="@(Common.GetPropertyName<decimal?>(()=>pp.dcPrice) )">@loProductList.dcPrice</td>
                             <td data-pulse-selecter="@(Common.GetPropertyName<int?>(()=>pp.inQuantity) )">@loProductList.inQuantity</td>

@@ -13,6 +13,6 @@ namespace PWAProject.Models
         public string stDescription { get; set; }
         public decimal? dcDiscount { get; set; }
         public int? inQuantity { get; set; }
-        public bool flgIsEdit { get; set; }
+        public const string stParentId = "HtmlTagId";
     }
 }
