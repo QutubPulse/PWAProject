@@ -1,6 +1,8 @@
 ﻿@using PWAProject.Models;
 @{
     ViewData["Title"] = "Manage Product";
+    var pp = new PWAProject.Models.Product();
+
 }
 <div class="row">
     <div class="col-12">
@@ -24,11 +26,11 @@
                 {
                     foreach (ProductList loProductList in Model.GetProductList)
                     {
-                        <tr id="tr_@loProductList.inProductId" >                            
-                            <td>@loProductList.stProductName</td>
-                            <td>@loProductList.dcPrice</td>
-                            <td>@loProductList.inQuantity</td>
-                            <td>@loProductList.stDescription</td>
+                        <tr id="tr_@loProductList.inProductId" data-pulse-id="@(typeof(PWAProject.Models.Product).Name + loProductList.inProductId)">                   
+                            <td data-pulse-selecter="@(Common.GetPropertyName<string>(()=>pp.stProductName) )">@loProductList.stProductName</td>
+                            <td data-pulse-selecter="@(Common.GetPropertyName<decimal?>(()=>pp.dcPrice) )">@loProductList.dcPrice</td>
+                            <td data-pulse-selecter="@(Common.GetPropertyName<int?>(()=>pp.inQuantity) )">@loProductList.inQuantity</td>
+                            <td data-pulse-selecter="@(Common.GetPropertyName<string>(()=>pp.stDescription) )">@loProductList.stDescription</td>
                             <td>
                                 <a class="btn-danger p-1" asp-area="" asp-controller="Home" asp-action="Edit" asp-route-id="@loProductList.inProductId">View</a>
                             </td>

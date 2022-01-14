@@ -11,6 +11,6 @@ namespace PWAProject.Hubs
         public async Task SendMessage(string success,string productId, string name, string price, string quantity, string description)
         {
             await Clients.All.SendAsync("ReceiveMessage", new { success= success, productId = productId, name = name, price = price, quantity = quantity, description = description });
-        }
+        }        
     }
 }
