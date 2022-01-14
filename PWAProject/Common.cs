@@ -22,10 +22,14 @@ namespace PWAProject
             StringBuilder loScript = new StringBuilder();
             if (foObject.flgIsEdit == true)
             {
+                loScript.Append(string.Format("if(document.querySelectorAll('[data-pulse-id={0}{1}]').length>0){{", foObject.GetType().Name, foObject.inProductId));
                 foreach (var obj in foObject.GetType().GetProperties())
                 {
+                    loScript.Append(string.Format("if(document.querySelectorAll('[data-pulse-id={0}{1}]')[0].querySelector('[data-pulse-selecter=\"{2}\"]')){{", foObject.GetType().Name, foObject.inProductId, obj.Name));
                     loScript.Append(string.Format("document.querySelectorAll('[data-pulse-id={0}{1}]')[0].querySelector('[data-pulse-selecter=\"{2}\"]').textContent=\"{3}\";", foObject.GetType().Name, foObject.inProductId, obj.Name, obj.GetValue(foObject)));
+                    loScript.Append("}");
                 }
+                loScript.Append("}");
             }
             else if (foObject.flgIsEdit == false)
             {
