@@ -1,7 +1,7 @@
 ﻿@using PWAProject.Models;
 @{
     ViewData["Title"] = "Manage Product";
-    var pp = new PWAProject.Models.Product();
+    var pp = new PWAProject.Models.ResponseObject();
 
 }
 <div class="row">
@@ -26,7 +26,8 @@
                 {
                     foreach (ProductList loProductList in Model.GetProductList)
                     {
-                        <tr id="tr_@loProductList.inProductId" data-pulse-id="@(typeof(PWAProject.Models.Product).Name + loProductList.inProductId)">                   
+                        <tr id="tr_@loProductList.inProductId" data-pulse-id="@(typeof(PWAProject.Models.ResponseObject).Name + loProductList.inProductId)">                   
+                            <td style="display:none;" data-pulse-selecter="@(Common.GetPropertyName<int?>(()=>pp.inProductId) )">@loProductList.stProductName</td>
                             <td data-pulse-selecter="@(Common.GetPropertyName<string>(()=>pp.stProductName) )">@loProductList.stProductName</td>
                             <td data-pulse-selecter="@(Common.GetPropertyName<decimal?>(()=>pp.dcPrice) )">@loProductList.dcPrice</td>
                             <td data-pulse-selecter="@(Common.GetPropertyName<int?>(()=>pp.inQuantity) )">@loProductList.inQuantity</td>
