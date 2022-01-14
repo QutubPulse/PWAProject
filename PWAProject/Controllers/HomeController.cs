@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using PWADemoProject.Repository.IRepository;
+using PWAProject.Hubs;
 using PWAProject.Models;
 using System;
 using System.Collections.Generic;
@@ -15,11 +17,13 @@ namespace PWAProject.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork moUnitOfWork;
+        private readonly IHubContext<BroadcastHub> moBroadcastHub;
         private readonly static int miPageSize = 10;
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork foUnitOfWork)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork foUnitOfWork, IHubContext<BroadcastHub> foBroadcastHub)
         {
             _logger = logger;
             moUnitOfWork = foUnitOfWork;
+            moBroadcastHub = foBroadcastHub;
         }
 
         public IActionResult Index()
@@ -60,13 +64,36 @@ namespace PWAProject.Controllers
         public IActionResult Edit(int id)
         {
             Product loProduct = moUnitOfWork.Products.GetProductDetail(id);
-            return View("~/Views/Home/AddProduct.cshtml",loProduct);
+            return View("~/Views/Home/AddProduct.cshtml", loProduct);
         }
-        public JsonResult SaveProduct(Product foProduct)
+
+
+        public async Task<JsonResult> SaveProduct(Product foProduct)
         {
             int liSuccess = 0;
             int liProductId = 0;
+            bool flgIsEdit = false;
             moUnitOfWork.Products.SaveProduct(foProduct, out liSuccess, out liProductId);
+            if (liSuccess == 101)
+            {
+                flgIsEdit = false;
+            }
+            else if(liSuccess==102)
+            {
+                flgIsEdit = true;
+            }
+            foProduct.inProductId = liProductId;
+            ResponseObject responseObject = new ResponseObject()
+            {
+                inProductId = foProduct.inProductId,
+                stProductName = foProduct.stProductName,
+                dcPrice = foProduct.dcPrice,
+                dcDiscount = foProduct.dcDiscount,
+                inQuantity = foProduct.inQuantity,
+                stDescription = foProduct.stDescription,
+                flgIsEdit = flgIsEdit
+            };
+            await Common.SendMessage(moBroadcastHub, responseObject);
             return Json(new { success = liSuccess, productid = liProductId, url = Url.Action("ProductList", "Home") });
         }
 
@@ -74,7 +101,7 @@ namespace PWAProject.Controllers
         {
             int liSuccess = 0;
             moUnitOfWork.Products.DeleteProduct(id, out liSuccess);
-            return Json(new { success = liSuccess, productid = id});
+            return Json(new { success = liSuccess, productid = id });
         }
         /* public  IActionResult GetProductList(int? sort_column, string sort_order, int? pg, int? size)
          {
