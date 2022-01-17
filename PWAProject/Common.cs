@@ -14,12 +14,12 @@ namespace PWAProject
 {
     public static class Common
     {       
-        public static String GetPropertyName<TValue>(Expression<Func<TValue>> propertyId)
+        public static string GetPropertyName<TValue>(Expression<Func<TValue>> propertyId)
         {
             return ((MemberExpression)propertyId.Body).Member.Name;
         }
 
-        public static String GetConstantPropertyName<TValue>(Expression<Func<TValue>> propertyId)
+        public static string GetConstantPropertyName<TValue>(Expression<Func<TValue>> propertyId)
         {
             return ((ConstantExpression)propertyId.Body).Value.ToString();
         }
@@ -27,19 +27,20 @@ namespace PWAProject
         public async static Task SendMessage(IHubContext<BroadcastHub> moBroadcastHub, ResponseObject foObject, bool flgIsEdit,string fsTemplatepath)
         {
             StringBuilder loScript = new StringBuilder();
+            bool loFirstTime = true;
+            int id = 0;
             if (flgIsEdit == true)
             {
-                int ctr = 0, id = 0;
                 foreach (var obj in foObject.GetType().GetProperties())
                 {
-                    if (ctr == 0)
+                    if (loFirstTime == true)
                     {
-                        loScript.Append(string.Format("if(document.querySelectorAll('[data-pulse-id={0}{1}]').length>0){{", foObject.GetType().Name, obj.GetValue(foObject)));
+                        loScript.Append(string.Format("if(document.querySelector('[data-pulse-id={0}{1}]')!=null){{", foObject.GetType().Name, obj.GetValue(foObject)));
                         id = Convert.ToInt32(obj.GetValue(foObject));
-                        ctr = 1;
+                        loFirstTime = false;
                     }
-                    loScript.Append(string.Format("if(document.querySelectorAll('[data-pulse-id={0}{1}]')[0].querySelector('[data-pulse-selecter=\"{2}\"]')){{", foObject.GetType().Name, id, obj.Name));
-                    loScript.Append(string.Format("document.querySelectorAll('[data-pulse-id={0}{1}]')[0].querySelector('[data-pulse-selecter=\"{2}\"]').textContent=\"{3}\";", foObject.GetType().Name, id, obj.Name, obj.GetValue(foObject)));
+                    loScript.Append(string.Format("if(document.querySelector('[data-pulse-id={0}{1}]').querySelector('[data-pulse-selecter=\"{2}\"]')){{", foObject.GetType().Name, id, obj.Name));
+                    loScript.Append(string.Format("document.querySelector('[data-pulse-id={0}{1}]').querySelector('[data-pulse-selecter=\"{2}\"]').textContent=\"{3}\";", foObject.GetType().Name, id, obj.Name, obj.GetValue(foObject)));
                     loScript.Append("}");
                 }
                 loScript.Append("}");
@@ -51,19 +52,16 @@ namespace PWAProject
                 {
                     lsTemplateBody = loStreamReader.ReadToEnd();
                 }
-
                 lsTemplateBody = lsTemplateBody.Replace("{{ObjectName}}", foObject.GetType().Name);
-
                 foreach (var obj in foObject.GetType().GetProperties())
                 {
                     lsTemplateBody = lsTemplateBody.Replace("{{" + obj.Name + ".value}}", obj.GetValue(foObject).ToString());
                     lsTemplateBody = lsTemplateBody.Replace("{{" + obj.Name + "}}", obj.Name);
                 }
-                loScript.Append(string.Format("if(document.querySelectorAll('[data-pulse-parentid={0}]').length>0){{", GetConstantPropertyName<string>(() => ResponseObject.stParentId)));
-                loScript.Append("document.querySelector('[data-pulse-parentid={" + GetConstantPropertyName<string>(() => ResponseObject.stParentId) + "}]').prepend(`" + lsTemplateBody + "`);");
+                loScript.Append(string.Format("if(document.querySelector('[data-pulse-parentid={0}]')!=null){{", GetConstantPropertyName<string>(() => ResponseObject.stParentId)));
+                loScript.Append(string.Format("document.querySelector('[data-pulse-parentid={0}]').insertAdjacentHTML('afterbegin',`{1}`);", GetConstantPropertyName<string>(() => ResponseObject.stParentId), lsTemplateBody));
                 loScript.Append("}");
             }
-            //Console.WriteLine(loScript.ToString());
             await moBroadcastHub.Clients.All.SendAsync("ReceiveMessage", new { uid = foObject.inProductId, timestamp = DateTime.UtcNow.Ticks, script = loScript.ToString() });
         }
     }
