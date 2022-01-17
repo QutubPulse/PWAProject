@@ -14,6 +14,6 @@ namespace PWAProject.Models
         public string stDescription { get; set; }
         public decimal? dcDiscount { get; set; }
         public int? inQuantity { get; set; }
-        public const string stParentId = "productListBody";
+        //public const string stParentId = "productListBody";
     }
 }

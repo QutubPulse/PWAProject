@@ -93,6 +93,7 @@ namespace PWAProject.Controllers
             ResponseObject responseObject = new ResponseObject()
             {
                 id = (int)foProduct.inProductId,
+                parentId = "productListBody",
                 inProductId = foProduct.inProductId,
                 stProductName = foProduct.stProductName,
                 dcPrice = foProduct.dcPrice,
