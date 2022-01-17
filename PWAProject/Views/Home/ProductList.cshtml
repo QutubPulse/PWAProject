@@ -21,7 +21,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody data-pulse-parentid="@(Common.GetPropertyName<string>(()=>PWAProject.Models.ResponseObject.stParentId))">
+            <tbody data-pulse-parentid="@(Common.GetConstantPropertyName<string>(()=>PWAProject.Models.ResponseObject.stParentId))">
                 @if (Model.GetProductList != null && Model.GetProductList.Count > 0)
                 {
                     foreach (ProductList loProductList in Model.GetProductList)

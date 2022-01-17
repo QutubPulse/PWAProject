@@ -89,6 +89,7 @@ namespace PWAProject.Controllers
                 flgIsEdit = true;
             }
             foProduct.inProductId = liProductId;
+            foProduct.dcDiscount = 0;
             ResponseObject responseObject = new ResponseObject()
             {
                 inProductId = foProduct.inProductId,

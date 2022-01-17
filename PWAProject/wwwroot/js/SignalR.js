@@ -7,7 +7,7 @@ const connection = new signalR.HubConnectionBuilder().withUrl("/broadcastHub").b
 connection.on("ReceiveMessage", (obj) => {
     var script = document.createElement("script");
     script.innerHTML = obj.script;
-    document.body.appendChild(script);
+    document.body.appendChild(script);    
     /*if (obj.success == MessageType.AddProduct) {
         $("#tblProduct > tbody").prepend("<tr id='tr_" + obj.productId + "'><td>" + obj.name + "</td><td>" + obj.price + "</td><td>" + obj.quantity + "</td><td>" + obj.description + "</td><td> <a class='btn-danger p-1' href='/Edit/" + obj.productId + "'>View</a></td></tr>");
     }
@@ -20,5 +20,4 @@ connection.on("ReceiveMessage", (obj) => {
         $('#tr_' + obj.productId).addClass('blink')
     }*/
 });
-
 connection.start().catch(err => console.error(err.toString())); 
