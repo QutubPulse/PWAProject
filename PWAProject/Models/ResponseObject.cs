@@ -6,7 +6,7 @@ using static PWAProject.Common;
 
 namespace PWAProject.Models
 {
-    public class ResponseObject
+    public class ResponseObject:IdRequired
     {
         public int? inProductId { get; set; }
         public string stProductName { get; set; }
@@ -14,7 +14,6 @@ namespace PWAProject.Models
         public string stDescription { get; set; }
         public decimal? dcDiscount { get; set; }
         public int? inQuantity { get; set; }
-
         public const string stParentId = "productListBody";
     }
 }

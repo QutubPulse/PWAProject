@@ -92,7 +92,7 @@ namespace PWAProject.Controllers
             foProduct.dcDiscount = 0;
             ResponseObject responseObject = new ResponseObject()
             {
-                //id = (int)foProduct.inProductId,
+                id = (int)foProduct.inProductId,
                 inProductId = foProduct.inProductId,
                 stProductName = foProduct.stProductName,
                 dcPrice = foProduct.dcPrice,
